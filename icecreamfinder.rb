@@ -1,4 +1,3 @@
-
 #request location
 # use geocoding api to return lat & long
 # feed string "ice cream" + lat & long to places api
@@ -9,6 +8,8 @@ require 'rest-client'
 require 'json'
 require 'addressable/uri'
 require 'nokogiri'
+
+#in the future, store your api key in a private file
 GOOGLEAPIKEY = "AIzaSyDMFjLRPP-kHOQB_zeQzuubY5qOUZuCAmI"
 
 class IceCreamFinder
@@ -33,6 +34,7 @@ class IceCreamFinder
 
   def select_stores(array_of_stores)
     array_of_stores.each_with_index do |store_details, index|
+      #yikes! what a long line!
       puts "Store #{index+1}: \t#{store_details[:name]}. \n\t\tLocated at #{store_details[:address]} \n\t\twith a rating of #{store_details[:rating]}.\n"
     end
 
@@ -56,6 +58,9 @@ class IceCreamFinder
   end
 
   def search_for_ice_cream(coordinates)
+    #I think you're supposed to write your urls as addressable uris
+    #I noticed the you wrote an addressable uri a few lines up, but you should be able to
+    #put all of the details of this following line in your addressable uri
     response = querystring("maps/api/place/textsearch/json","query=#{"ice cream".gsub(" ","+")}&key=#{GOOGLEAPIKEY}&sensor=false&location=#{coordinates[0]},#{coordinates[1]}&radius=500")
     array_of_stores = []
     response["results"].each do |store_info|
